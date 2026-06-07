@@ -1,0 +1,399 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ゆるっとタロット記事ナビ</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --lavender: #eee9f7;
+      --lavender-deep: #7c6a9f;
+      --cream: #fffaf0;
+      --ink: #36313d;
+      --title: #665477;
+      --muted: #514959;
+      --sage: #dfe9dd;
+      --rose: #f4dadd;
+      --line: rgba(94, 79, 115, 0.18);
+      --shadow: 0 18px 45px rgba(73, 61, 92, 0.13);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, system-ui, sans-serif;
+      line-height: 1.7;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(244, 218, 221, 0.58), transparent 32rem),
+        linear-gradient(135deg, var(--lavender), var(--cream) 58%, #f8f1e7);
+    }
+
+    .page {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 42px 0 56px;
+    }
+
+    header {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--lavender-deep);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--title);
+      font-size: clamp(2rem, 6vw, 3.8rem);
+      line-height: 1.18;
+      letter-spacing: 0;
+      font-weight: 700;
+    }
+
+    .lead {
+      max-width: 43rem;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .search-panel {
+      display: grid;
+      gap: 16px;
+      padding: 18px;
+      margin: 26px 0 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 250, 240, 0.82);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    input[type="search"] {
+      width: 100%;
+      min-height: 48px;
+      padding: 11px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fffdf8;
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+
+    input[type="search"]:focus-visible,
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid rgba(124, 106, 159, 0.32);
+      outline-offset: 3px;
+    }
+
+    .clear-button,
+    .filter-button,
+    .read-button {
+      min-height: 44px;
+      border: 0;
+      border-radius: 8px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+    }
+
+    .clear-button {
+      align-self: end;
+      padding: 0 16px;
+      color: var(--lavender-deep);
+      background: var(--sage);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .filter-button {
+      padding: 0 15px;
+      color: var(--ink);
+      background: #fffdf8;
+      border: 1px solid var(--line);
+    }
+
+    .filter-button[aria-pressed="true"] {
+      color: #fff;
+      background: var(--lavender-deep);
+      box-shadow: 0 10px 22px rgba(124, 106, 159, 0.22);
+    }
+
+    .status {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .card {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 253, 248, 0.9);
+      box-shadow: 0 10px 26px rgba(73, 61, 92, 0.08);
+    }
+
+    .card-top {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 1.24rem;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .badge {
+      flex: 0 0 auto;
+      padding: 4px 10px;
+      border-radius: 999px;
+      color: #5e4f73;
+      background: var(--rose);
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge.reversed { background: var(--sage); }
+
+    .theme {
+      margin: 0;
+      color: #3f3847;
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .read-button {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      justify-content: center;
+      padding: 0 17px;
+      color: #fff;
+      text-decoration: none;
+      background: #5f4d78;
+      font-weight: 800;
+    }
+
+    .clear-button:hover,
+    .filter-button:hover,
+    .read-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(73, 61, 92, 0.12);
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      padding: 28px 18px;
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      background: rgba(255, 253, 248, 0.62);
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 24px, 1040px);
+        padding-top: 28px;
+      }
+
+      .search-row,
+      .results {
+        grid-template-columns: 1fr;
+      }
+
+      .clear-button {
+        width: 100%;
+      }
+
+      .filters {
+        align-items: stretch;
+      }
+
+      .filter-button {
+        flex: 1 1 92px;
+      }
+
+      .status {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      .read-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="eyebrow">note article finder</p>
+      <h1>ゆるっとタロット記事ナビ</h1>
+      <p class="lead">カード名や正位置・逆位置を手がかりに、今の自分に近いタロット記事をゆっくり探せます。</p>
+    </header>
+
+    <section class="search-panel" aria-label="記事検索">
+      <div class="search-row">
+        <label for="searchInput">カード名で検索
+          <input id="searchInput" type="search" placeholder="例：愚者、女教皇、太陽" autocomplete="off">
+        </label>
+        <button class="clear-button" type="button" id="clearButton">クリア</button>
+      </div>
+
+      <div class="filters" aria-label="向きで絞り込み">
+        <button class="filter-button" type="button" data-filter="all" aria-pressed="true">すべて</button>
+        <button class="filter-button" type="button" data-filter="正位置" aria-pressed="false">正位置</button>
+        <button class="filter-button" type="button" data-filter="逆位置" aria-pressed="false">逆位置</button>
+        <span class="status" id="resultStatus" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <section class="results" id="results" aria-live="polite"></section>
+
+    <footer>カードと暮らす日々</footer>
+  </main>
+
+  <script>
+    const articles = [{"number":"0","card":"愚者","orientation":"正位置","theme":"新しい一歩を、軽やかに踏み出す日","url":"https://note.com/yuki906/n/nfc3724b8b643"},{"number":"0","card":"愚者","orientation":"逆位置","theme":"足元を確かめながら、ゆっくり進む日","url":"https://note.com/yuki906/n/ned729df9e16f"},{"number":"1","card":"魔術師","orientation":"正位置","theme":"今ある力を使って、まず始めてみる日","url":"https://note.com/yuki906/n/n22cb463c9344"},{"number":"1","card":"魔術師","orientation":"逆位置","theme":"準備不足に気づき、整え直す日","url":"https://note.com/yuki906/n/nc0a5aa51e39c"},{"number":"2","card":"女教皇","orientation":"正位置","theme":"静けさの中で、本音に耳をすます日","url":"https://note.com/yuki906/n/nf1306004668e"},{"number":"2","card":"女教皇","orientation":"逆位置","theme":"考えすぎをゆるめ、心を開いていく日","url":"https://note.com/yuki906/n/nab28e678bc04"},{"number":"3","card":"女帝","orientation":"正位置","theme":"自分の中の豊かさを、やさしく育てる日","url":"https://note.com/yuki906/n/n60d6fd85e9b8"},{"number":"3","card":"女帝","orientation":"逆位置","theme":"与えすぎた心を、自分へ戻していく日","url":"https://note.com/yuki906/n/n63dcd1d00258"},{"number":"4","card":"皇帝","orientation":"正位置","theme":"自分の軸を立て、現実を整える日","url":"https://note.com/yuki906/n/nf27b6c8631cf"},{"number":"4","card":"皇帝","orientation":"逆位置","theme":"力みすぎをゆるめ、安心できる形を探す日","url":"https://note.com/yuki906/n/n4dfe7aa2ce88"},{"number":"5","card":"教皇","orientation":"正位置","theme":"信頼できる知恵に学び、心を整える日","url":"https://note.com/yuki906/n/n0adcdd86da8a"},{"number":"5","card":"教皇","orientation":"逆位置","theme":"常識よりも、自分の内側の声を確かめる日","url":"https://note.com/yuki906/n/n3eb07c676cf4"},{"number":"6","card":"恋人","orientation":"正位置","theme":"心が選ぶものを、素直に大切にする日","url":"https://note.com/yuki906/n/n75792ebf1053"},{"number":"6","card":"恋人","orientation":"逆位置","theme":"迷いの中にある本音を、静かに見つめる日","url":"https://note.com/yuki906/n/nb859facb9d50"},{"number":"7","card":"戦車","orientation":"正位置","theme":"進みたい気持ちを力に変えて動く日","url":"https://note.com/yuki906/n/n927b7f9b4976"},{"number":"7","card":"戦車","orientation":"逆位置","theme":"焦る気持ちを整え、進む方向を見直す日","url":"https://note.com/yuki906/n/n4d015aa126d5"},{"number":"8","card":"力","orientation":"正位置","theme":"やさしさと粘り強さで、自分を支える日","url":"https://note.com/yuki906/n/n08a7ccfcaf70"},{"number":"8","card":"力","orientation":"逆位置","theme":"無理に強くあろうとせず、心を休ませる日","url":"https://note.com/yuki906/n/n68202a894137"},{"number":"9","card":"隠者","orientation":"正位置","theme":"ひとりの時間の中で、大切な答えを探す日","url":"https://note.com/yuki906/n/n4f2c555b8bc6"},{"number":"9","card":"隠者","orientation":"逆位置","theme":"閉じこもりすぎた心に、小さな光を入れる日","url":"https://note.com/yuki906/n/nc37a036fd66e"},{"number":"10","card":"運命の輪","orientation":"正位置","theme":"流れが動き出すタイミングを受け取る日","url":"https://note.com/yuki906/n/nf9063a56a36f"},{"number":"10","card":"運命の輪","orientation":"逆位置","theme":"思い通りに進まない流れを、見守る日","url":"https://note.com/yuki906/n/n60e65ab4f097"},{"number":"11","card":"正義","orientation":"正位置","theme":"心と現実のバランスを、静かに整える日","url":"https://note.com/yuki906/n/nd8be83ea4327"},{"number":"11","card":"正義","orientation":"逆位置","theme":"正しさに偏らず、本当の納得を探す日","url":"https://note.com/yuki906/n/n3cb0906a1a89"},{"number":"12","card":"吊るされた男","orientation":"正位置","theme":"動けない時間の中で、見方を変えてみる日","url":"https://note.com/yuki906/n/n8ac68ca07403"},{"number":"12","card":"吊るされた男","orientation":"逆位置","theme":"我慢しすぎに気づき、力を抜いていく日","url":"https://note.com/yuki906/n/nad14332b8a56"},{"number":"13","card":"死神","orientation":"正位置","theme":"終わりを受け入れ、新しい流れへ向かう日","url":"https://note.com/yuki906/n/nf24e42a79122"},{"number":"13","card":"死神","orientation":"逆位置","theme":"手放せないものを、少しずつほどいていく日","url":"https://note.com/yuki906/n/nd24bde00928e"},{"number":"14","card":"節制","orientation":"正位置","theme":"心と体のリズムを、やさしく調和させる日","url":"https://note.com/yuki906/n/nf8d7ff071b28"},{"number":"14","card":"節制","orientation":"逆位置","theme":"乱れたペースを、少しずつ整え直す日","url":"https://note.com/yuki906/n/n99e4005b7c3b"},{"number":"15","card":"悪魔","orientation":"正位置","theme":"執着や欲望の奥にある本音を見つめる日","url":"https://note.com/yuki906/n/nbfa092393521"},{"number":"15","card":"悪魔","orientation":"逆位置","theme":"縛られていたものから、少しずつ自由になる日","url":"https://note.com/yuki906/n/n2a880edcba74"},{"number":"16","card":"塔","orientation":"正位置","theme":"壊れることで、本当の土台が見えてくる日","url":"https://note.com/yuki906/n/n3071f4140e7f"},{"number":"16","card":"塔","orientation":"逆位置","theme":"変化を恐れず、古い形を静かに手放す日","url":"https://note.com/yuki906/n/nb5e4d1a3c44f"},{"number":"17","card":"星","orientation":"正位置","theme":"小さな希望を信じて、未来へ目を向ける日","url":"https://note.com/yuki906/n/n0e79672a6e24"},{"number":"17","card":"星","orientation":"逆位置","theme":"希望を見失った心に、そっと光を戻す日","url":"https://note.com/yuki906/n/n678e291e8546"},{"number":"18","card":"月","orientation":"正位置","theme":"不安の奥にある感情を、やさしく見つめる日","url":"https://note.com/yuki906/n/nce850e41515a"},{"number":"18","card":"月","orientation":"逆位置","theme":"ぼんやりしていた気持ちが、少しずつ晴れる日","url":"https://note.com/yuki906/n/nde06eeafc487"},{"number":"19","card":"太陽","orientation":"正位置","theme":"素直な喜びを、まっすぐ受け取る日","url":"https://note.com/yuki906/n/n6381d0233c6e"},{"number":"19","card":"太陽","orientation":"逆位置","theme":"小さな喜びを思い出し、自分を温める日","url":"https://note.com/yuki906/n/nd2ffd2a50573"},{"number":"20","card":"審判","orientation":"正位置","theme":"眠っていた思いが、もう一度目を覚ます日","url":"https://note.com/yuki906/n/n6e408ef737fb"},{"number":"20","card":"審判","orientation":"逆位置","theme":"過去の声にとらわれず、今の自分を選ぶ日","url":"https://note.com/yuki906/n/n4d757b815e19"},{"number":"21","card":"世界","orientation":"正位置","theme":"ひとつの旅を終え、満ちた感覚を味わう日","url":"https://note.com/yuki906/n/nbc4ddb6fb91e"},{"number":"21","card":"世界","orientation":"逆位置","theme":"完璧を急がず、今いる場所を整える日","url":"https://note.com/yuki906/n/nda0940a6d383"}];
+    const searchInput = document.querySelector('#searchInput');
+    const clearButton = document.querySelector('#clearButton');
+    const filterButtons = Array.from(document.querySelectorAll('.filter-button'));
+    const results = document.querySelector('#results');
+    const resultStatus = document.querySelector('#resultStatus');
+    let activeFilter = 'all';
+
+    const normalize = (value) => String(value || '').normalize('NFKC').trim().toLowerCase();
+
+    function render() {
+      const query = normalize(searchInput.value);
+      const filtered = articles.filter((item) => {
+        const matchesCard = normalize(item.card).includes(query);
+        const matchesOrientation = activeFilter === 'all' || item.orientation === activeFilter;
+        return matchesCard && matchesOrientation;
+      });
+
+      resultStatus.textContent = `${filtered.length}件見つかりました`;
+      results.innerHTML = '';
+
+      if (filtered.length === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'empty';
+        empty.textContent = '条件に合う記事が見つかりませんでした。カード名や向きを変えて探してみてください。';
+        results.append(empty);
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+      filtered.forEach((item) => {
+        const article = document.createElement('article');
+        article.className = 'card';
+
+        const top = document.createElement('div');
+        top.className = 'card-top';
+
+        const title = document.createElement('h2');
+        title.textContent = item.card;
+
+        const badge = document.createElement('span');
+        badge.className = item.orientation === '逆位置' ? 'badge reversed' : 'badge';
+        badge.textContent = item.orientation;
+
+        const theme = document.createElement('p');
+        theme.className = 'theme';
+        theme.textContent = item.theme;
+
+        const link = document.createElement('a');
+        link.className = 'read-button';
+        link.href = item.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = '記事を読む';
+
+        top.append(title, badge);
+        article.append(top, theme, link);
+        fragment.append(article);
+      });
+
+      results.append(fragment);
+    }
+
+    searchInput.addEventListener('input', render);
+    clearButton.addEventListener('click', () => {
+      searchInput.value = '';
+      searchInput.focus();
+      render();
+    });
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeFilter = button.dataset.filter;
+        filterButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        render();
+      });
+    });
+
+    render();
+  </script>
+</body>
+</html>
