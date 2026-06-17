@@ -1,9 +1,9 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ja">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ゆるっとタロット記事ナビ</title>
+  <title>カードと暮らす日々記事ナビ</title>
   <style>
     :root {
       color-scheme: light;
@@ -33,7 +33,7 @@
     }
 
     .page {
-      width: min(1040px, calc(100% - 32px));
+      width: min(1080px, calc(100% - 32px));
       margin: 0 auto;
       padding: 42px 0 56px;
     }
@@ -84,7 +84,7 @@
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 12px;
-      align-items: center;
+      align-items: end;
     }
 
     label {
@@ -115,49 +115,38 @@
     }
 
     .clear-button,
-    .filter-button,
     .read-button {
       min-height: 44px;
       border: 0;
       border-radius: 8px;
       font: inherit;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
     }
 
     .clear-button {
-      align-self: end;
       padding: 0 16px;
       color: var(--lavender-deep);
       background: var(--sage);
     }
 
-    .filters {
+    .meta-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 700;
     }
 
-    .filter-button {
-      padding: 0 15px;
-      color: var(--ink);
-      background: #fffdf8;
-      border: 1px solid var(--line);
-    }
-
-    .filter-button[aria-pressed="true"] {
-      color: #fff;
-      background: var(--lavender-deep);
-      box-shadow: 0 10px 22px rgba(124, 106, 159, 0.22);
+    .hint {
+      margin: 0;
     }
 
     .status {
       margin-left: auto;
-      color: var(--muted);
-      font-size: 0.92rem;
-      font-weight: 700;
     }
 
     .results {
@@ -169,7 +158,7 @@
 
     .card {
       display: grid;
-      gap: 12px;
+      gap: 14px;
       padding: 18px;
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -178,79 +167,148 @@
     }
 
     .card-top {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
     }
 
-    .card h2 {
+    .number {
+      display: grid;
+      place-items: center;
+      width: 3.2rem;
+      min-height: 3.2rem;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--lavender-deep);
+      box-shadow: 0 10px 22px rgba(124, 106, 159, 0.22);
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .number small {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      opacity: 0.92;
+    }
+
+    h2 {
       margin: 0;
-      font-size: 1.24rem;
+      color: var(--title);
+      font-size: 1.22rem;
       line-height: 1.35;
       letter-spacing: 0;
     }
 
-    .badge {
-      flex: 0 0 auto;
-      padding: 4px 10px;
-      border-radius: 999px;
-      color: #5e4f73;
-      background: var(--rose);
-      font-size: 0.82rem;
+    .english {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
       font-weight: 700;
-      white-space: nowrap;
     }
 
-    .badge.reversed { background: var(--sage); }
+    .article-grid {
+      display: grid;
+      gap: 10px;
+    }
 
-    .theme {
+    .article {
+      display: grid;
+      gap: 8px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(238, 233, 247, 0.38);
+    }
+
+    .article[data-empty="true"] {
+      background: rgba(223, 233, 221, 0.42);
+    }
+
+    .article-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 10px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: var(--rose);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .badge.reversed {
+      background: var(--sage);
+    }
+
+    .date {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .article-title {
       margin: 0;
       color: #3f3847;
-      font-size: 0.98rem;
-      font-weight: 600;
+      font-size: 0.96rem;
+      font-weight: 700;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .empty-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 700;
     }
 
     .read-button {
       display: inline-flex;
-      width: fit-content;
       align-items: center;
       justify-content: center;
-      padding: 0 17px;
+      justify-self: start;
+      min-width: 8.2rem;
+      padding: 0 16px;
       color: #fff;
-      text-decoration: none;
       background: #5f4d78;
-      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 10px 22px rgba(95, 77, 120, 0.2);
     }
 
     .clear-button:hover,
-    .filter-button:hover,
     .read-button:hover {
       transform: translateY(-1px);
-      box-shadow: 0 10px 22px rgba(73, 61, 92, 0.12);
     }
 
-    .empty {
-      grid-column: 1 / -1;
-      padding: 28px 18px;
-      border: 1px dashed var(--line);
+    .no-results {
+      display: none;
+      padding: 22px;
+      margin-top: 18px;
+      border: 1px solid var(--line);
       border-radius: 8px;
+      background: rgba(255, 253, 248, 0.9);
       color: var(--muted);
-      background: rgba(255, 253, 248, 0.62);
+      font-weight: 700;
       text-align: center;
     }
 
-    footer {
-      margin-top: 28px;
-      color: var(--muted);
-      font-size: 0.86rem;
-      text-align: center;
+    .no-results.is-visible {
+      display: block;
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 820px) {
       .page {
-        width: min(100% - 24px, 1040px);
-        padding-top: 28px;
+        width: min(100% - 22px, 680px);
+        padding: 28px 0 38px;
       }
 
       .search-row,
@@ -262,25 +320,36 @@
         width: 100%;
       }
 
-      .filters {
-        align-items: stretch;
-      }
-
-      .filter-button {
-        flex: 1 1 92px;
-      }
-
       .status {
         width: 100%;
         margin-left: 0;
       }
 
       .card {
-        padding: 16px;
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      h1 {
+        font-size: 2rem;
       }
 
-      .read-button {
+      .page {
+        width: min(100% - 18px, 680px);
+      }
+
+      .search-panel {
+        padding: 14px;
+      }
+
+      .card-top {
+        grid-template-columns: 1fr;
+      }
+
+      .number {
         width: 100%;
+        min-height: 2.8rem;
       }
     }
   </style>
@@ -288,109 +357,844 @@
 <body>
   <main class="page">
     <header>
-      <p class="eyebrow">note article finder</p>
-      <h1>ゆるっとタロット記事ナビ</h1>
-      <p class="lead">カード名や正位置・逆位置を手がかりに、今の自分に近いタロット記事をゆっくり探せます。</p>
+      <p class="eyebrow">Yurutto Tarot Navi</p>
+      <h1>カードと暮らす日々記事ナビ</h1>
+      <p class="lead">「カードと暮らす日々」シリーズの記事を、カード名・番号・ローマ数字から探せます。</p>
     </header>
 
     <section class="search-panel" aria-label="記事検索">
       <div class="search-row">
-        <label for="searchInput">カード名で検索
-          <input id="searchInput" type="search" placeholder="例：愚者、女教皇、太陽" autocomplete="off">
+        <label>
+          カード名・番号・ローマ数字で検索
+          <input id="searchInput" type="search" autocomplete="off" placeholder="例：愚者 / 0 / 00 / O / I / The Magician">
         </label>
-        <button class="clear-button" type="button" id="clearButton">クリア</button>
+        <button class="clear-button" id="clearButton" type="button">クリア</button>
       </div>
-
-      <div class="filters" aria-label="向きで絞り込み">
-        <button class="filter-button" type="button" data-filter="all" aria-pressed="true">すべて</button>
-        <button class="filter-button" type="button" data-filter="正位置" aria-pressed="false">正位置</button>
-        <button class="filter-button" type="button" data-filter="逆位置" aria-pressed="false">逆位置</button>
-        <span class="status" id="resultStatus" aria-live="polite"></span>
+      <div class="meta-row">
+        <p class="hint">正位置・逆位置の記事があるカードは、両方を表示します。</p>
+        <span class="status" id="status"></span>
       </div>
     </section>
 
     <section class="results" id="results" aria-live="polite"></section>
-
-    <footer>カードと暮らす日々</footer>
+    <p class="no-results" id="noResults">該当するカードが見つかりませんでした。</p>
   </main>
 
+  <script id="cardData" type="application/json">[
+  {
+    "number": 0,
+    "roman": "0",
+    "nameJa": "愚者",
+    "nameEn": "The Fool",
+    "aliases": [
+      "Fool",
+      "フール",
+      "O",
+      "00",
+      "0番"
+    ],
+    "searchTerms": [
+      "0",
+      "0番",
+      "愚者",
+      "The Fool",
+      "Fool",
+      "フール",
+      "O",
+      "00"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 愚者（The Fool）正位置",
+      "url": "https://note.com/yuki906/n/nb762a4c5b0dd",
+      "publishedAt": "2026-04-29 05:50",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 愚者（The Fool）逆位置",
+      "url": "https://note.com/yuki906/n/ned729df9e16f",
+      "publishedAt": "2026-02-01 07:17",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 1,
+    "roman": "I",
+    "nameJa": "魔術師",
+    "nameEn": "The Magician",
+    "aliases": [
+      "Magician",
+      "マジシャン",
+      "1番"
+    ],
+    "searchTerms": [
+      "1",
+      "1番",
+      "I",
+      "魔術師",
+      "The Magician",
+      "Magician",
+      "マジシャン"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 魔術師（The Magician）正位置",
+      "url": "https://note.com/yuki906/n/n22cb463c9344",
+      "publishedAt": "2026-01-11 08:16",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 魔術師（The Magician）逆位置",
+      "url": "https://note.com/yuki906/n/nc0a5aa51e39c",
+      "publishedAt": "2026-04-22 07:04",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 2,
+    "roman": "II",
+    "nameJa": "女教皇",
+    "nameEn": "The High Priestess",
+    "aliases": [
+      "High Priestess",
+      "ハイプリーステス",
+      "2番"
+    ],
+    "searchTerms": [
+      "2",
+      "2番",
+      "II",
+      "女教皇",
+      "The High Priestess",
+      "High Priestess",
+      "ハイプリーステス"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 女教皇（The High Priestess）正位置",
+      "url": "https://note.com/yuki906/n/nf1306004668e",
+      "publishedAt": "2026-05-23 06:44",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "カードと暮らす日々 ― 女教皇（The High Priestess）逆位置",
+      "url": "https://note.com/yuki906/n/nab28e678bc04",
+      "publishedAt": "2026-03-07 07:07",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 3,
+    "roman": "III",
+    "nameJa": "女帝",
+    "nameEn": "The Empress",
+    "aliases": [
+      "Empress",
+      "エンプレス",
+      "3番"
+    ],
+    "searchTerms": [
+      "3",
+      "3番",
+      "III",
+      "女帝",
+      "The Empress",
+      "Empress",
+      "エンプレス"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 女帝（The Empress）正位置",
+      "url": "https://note.com/yuki906/n/n60d6fd85e9b8",
+      "publishedAt": "2026-06-03 05:58",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "カードと暮らす日々 ― 女帝（The Empress）逆位置",
+      "url": "https://note.com/yuki906/n/neec22827ef15",
+      "publishedAt": "6月8日",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 4,
+    "roman": "IV",
+    "nameJa": "皇帝",
+    "nameEn": "The Emperor",
+    "aliases": [
+      "Emperor",
+      "エンペラー",
+      "4番"
+    ],
+    "searchTerms": [
+      "4",
+      "4番",
+      "IV",
+      "皇帝",
+      "The Emperor",
+      "Emperor",
+      "エンペラー"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 皇帝（The Emperor）正位置",
+      "url": "https://note.com/yuki906/n/na8fd0473ea6c",
+      "publishedAt": "2026-03-29 06:39",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 皇帝（The Emperor）逆位置",
+      "url": "https://note.com/yuki906/n/n4dfe7aa2ce88",
+      "publishedAt": "2026-06-01 06:30",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 5,
+    "roman": "V",
+    "nameJa": "教皇",
+    "nameEn": "The Hierophant",
+    "aliases": [
+      "Hierophant",
+      "ハイエロファント",
+      "5番"
+    ],
+    "searchTerms": [
+      "5",
+      "5番",
+      "V",
+      "教皇",
+      "The Hierophant",
+      "Hierophant",
+      "ハイエロファント"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 教皇（The Hierophant）正位置",
+      "url": "https://note.com/yuki906/n/n0adcdd86da8a",
+      "publishedAt": "2026-05-13 07:35",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 教皇（The Hierophant）逆位置",
+      "url": "https://note.com/yuki906/n/na5eb8977324c",
+      "publishedAt": "2026-06-06 08:04",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 6,
+    "roman": "VI",
+    "nameJa": "恋人",
+    "nameEn": "The Lovers",
+    "aliases": [
+      "Lovers",
+      "恋人たち",
+      "6番"
+    ],
+    "searchTerms": [
+      "6",
+      "6番",
+      "VI",
+      "恋人",
+      "The Lovers",
+      "Lovers",
+      "恋人たち"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 恋人（The Lovers）正位置",
+      "url": "https://note.com/yuki906/n/n75792ebf1053",
+      "publishedAt": "2026-06-07 08:24",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 恋人（The Lovers）逆位置",
+      "url": "https://note.com/yuki906/n/n4231ab4da313",
+      "publishedAt": "2026-06-04 07:26",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 7,
+    "roman": "VII",
+    "nameJa": "戦車",
+    "nameEn": "The Chariot",
+    "aliases": [
+      "Chariot",
+      "チャリオット",
+      "7番"
+    ],
+    "searchTerms": [
+      "7",
+      "7番",
+      "VII",
+      "戦車",
+      "The Chariot",
+      "Chariot",
+      "チャリオット"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 戦車（The Chariot）正位置",
+      "url": "https://note.com/yuki906/n/n4c0a83e0e309",
+      "publishedAt": "2026-04-14 07:45",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 戦車（The Chariot）逆位置",
+      "url": "https://note.com/yuki906/n/nb9091f18d85d",
+      "publishedAt": "2026-03-21 06:07",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 8,
+    "roman": "VIII",
+    "nameJa": "力",
+    "nameEn": "Strength",
+    "aliases": [
+      "Strength",
+      "ストレングス",
+      "8番"
+    ],
+    "searchTerms": [
+      "8",
+      "8番",
+      "VIII",
+      "力",
+      "Strength",
+      "ストレングス"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 力（Strength）正位置",
+      "url": "https://note.com/yuki906/n/n08a7ccfcaf70",
+      "publishedAt": "2026-05-10 08:37",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 力（Strength）逆位置",
+      "url": "https://note.com/yuki906/n/n68202a894137",
+      "publishedAt": "2026-02-23 07:14",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 9,
+    "roman": "IX",
+    "nameJa": "隠者",
+    "nameEn": "The Hermit",
+    "aliases": [
+      "Hermit",
+      "ハーミット",
+      "9番"
+    ],
+    "searchTerms": [
+      "9",
+      "9番",
+      "IX",
+      "隠者",
+      "The Hermit",
+      "Hermit",
+      "ハーミット"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 隠者（The Hermit）正位置",
+      "url": "https://note.com/yuki906/n/n4f2c555b8bc6",
+      "publishedAt": "2026-03-11 08:24",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 隠者（The Hermit）逆位置",
+      "url": "https://note.com/yuki906/n/nc37a036fd66e",
+      "publishedAt": "2026-05-20 07:20",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 10,
+    "roman": "X",
+    "nameJa": "運命の輪",
+    "nameEn": "Wheel of Fortune",
+    "aliases": [
+      "The Wheel of Fortune",
+      "Wheel",
+      "Fortune",
+      "ホイールオブフォーチュン",
+      "10番"
+    ],
+    "searchTerms": [
+      "10",
+      "10番",
+      "X",
+      "運命の輪",
+      "Wheel of Fortune",
+      "The Wheel of Fortune",
+      "Wheel",
+      "Fortune",
+      "ホイールオブフォーチュン"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 運命の輪（Wheel of Fortune）正位置",
+      "url": "https://note.com/yuki906/n/nf9063a56a36f",
+      "publishedAt": "2026-04-03 06:37",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 運命の輪（Wheel of Fortune）逆位置",
+      "url": "https://note.com/yuki906/n/n60e65ab4f097",
+      "publishedAt": "2026-05-15 06:01",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 11,
+    "roman": "XI",
+    "nameJa": "正義",
+    "nameEn": "Justice",
+    "aliases": [
+      "Justice",
+      "ジャスティス",
+      "11番"
+    ],
+    "searchTerms": [
+      "11",
+      "11番",
+      "XI",
+      "正義",
+      "Justice",
+      "ジャスティス"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 正義（Justice）正位置",
+      "url": "https://note.com/yuki906/n/n3cb0906a1a89",
+      "publishedAt": "2026-05-22 06:34",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 正義（Justice）逆位置",
+      "url": "https://note.com/yuki906/n/nee4536fefaf9",
+      "publishedAt": "2026-04-23 06:12",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 12,
+    "roman": "XII",
+    "nameJa": "吊るされた男",
+    "nameEn": "The Hanged Man",
+    "aliases": [
+      "Hanged Man",
+      "吊られた男",
+      "ハングドマン",
+      "12番"
+    ],
+    "searchTerms": [
+      "12",
+      "12番",
+      "XII",
+      "吊るされた男",
+      "The Hanged Man",
+      "Hanged Man",
+      "吊られた男",
+      "ハングドマン"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 吊るされた男（The Hanged Man）正位置",
+      "url": "https://note.com/yuki906/n/n0c10365ddfe8",
+      "publishedAt": "2026-05-27 07:11",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 吊るされた男（The Hanged Man）逆位置",
+      "url": "https://note.com/yuki906/n/nad14332b8a56",
+      "publishedAt": "2026-05-26 06:49",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 13,
+    "roman": "XIII",
+    "nameJa": "死神",
+    "nameEn": "Death",
+    "aliases": [
+      "Death",
+      "デス",
+      "13番"
+    ],
+    "searchTerms": [
+      "13",
+      "13番",
+      "XIII",
+      "死神",
+      "Death",
+      "デス"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 死神（Death）正位置",
+      "url": "https://note.com/yuki906/n/nddf2f48907da",
+      "publishedAt": "2026-04-12 08:15",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 死神（Death）逆位置",
+      "url": "https://note.com/yuki906/n/nd24bde00928e",
+      "publishedAt": "2026-05-29 06:49",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 14,
+    "roman": "XIV",
+    "nameJa": "節制",
+    "nameEn": "Temperance",
+    "aliases": [
+      "Temperance",
+      "テンペランス",
+      "14番"
+    ],
+    "searchTerms": [
+      "14",
+      "14番",
+      "XIV",
+      "節制",
+      "Temperance",
+      "テンペランス"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 節制（Temperance）正位置",
+      "url": "https://note.com/yuki906/n/nf8d7ff071b28",
+      "publishedAt": "2026-04-10 08:36",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 節制（Temperance）逆位置",
+      "url": "https://note.com/yuki906/n/n99e4005b7c3b",
+      "publishedAt": "2026-06-02 05:19",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 15,
+    "roman": "XV",
+    "nameJa": "悪魔",
+    "nameEn": "The Devil",
+    "aliases": [
+      "Devil",
+      "デビル",
+      "15番"
+    ],
+    "searchTerms": [
+      "15",
+      "15番",
+      "XV",
+      "悪魔",
+      "The Devil",
+      "Devil",
+      "デビル"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 悪魔（The Devil）正位置",
+      "url": "https://note.com/yuki906/n/nbfa092393521",
+      "publishedAt": "2026-05-25 06:39",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 悪魔（The Devil）逆位置",
+      "url": "https://note.com/yuki906/n/n2a880edcba74",
+      "publishedAt": "2026-04-20 05:54",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 16,
+    "roman": "XVI",
+    "nameJa": "塔",
+    "nameEn": "The Tower",
+    "aliases": [
+      "Tower",
+      "タワー",
+      "16番"
+    ],
+    "searchTerms": [
+      "16",
+      "16番",
+      "XVI",
+      "塔",
+      "The Tower",
+      "Tower",
+      "タワー"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 塔（The Tower）正位置",
+      "url": "https://note.com/yuki906/n/n3071f4140e7f",
+      "publishedAt": "2026-05-17 07:42",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 塔（The Tower）逆位置",
+      "url": "https://note.com/yuki906/n/n13725a08b2fb",
+      "publishedAt": "2026-05-16 06:13",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 17,
+    "roman": "XVII",
+    "nameJa": "星",
+    "nameEn": "The Star",
+    "aliases": [
+      "Star",
+      "スター",
+      "17番"
+    ],
+    "searchTerms": [
+      "17",
+      "17番",
+      "XVII",
+      "星",
+      "The Star",
+      "Star",
+      "スター"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 星（The Star）正位置",
+      "url": "https://note.com/yuki906/n/n0e79672a6e24",
+      "publishedAt": "2026-02-27 07:14",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 星（The Star）逆位置",
+      "url": "https://note.com/yuki906/n/n340dccf3b152",
+      "publishedAt": "2026-04-21 06:44",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 18,
+    "roman": "XVIII",
+    "nameJa": "月",
+    "nameEn": "The Moon",
+    "aliases": [
+      "Moon",
+      "ムーン",
+      "18番"
+    ],
+    "searchTerms": [
+      "18",
+      "18番",
+      "XVIII",
+      "月",
+      "The Moon",
+      "Moon",
+      "ムーン"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 月（The Moon）正位置",
+      "url": "https://note.com/yuki906/n/nce850e41515a",
+      "publishedAt": "2026-06-05 07:04",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 月（The Moon）逆位置",
+      "url": "https://note.com/yuki906/n/nde06eeafc487",
+      "publishedAt": "2026-05-03 05:35",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 19,
+    "roman": "XIX",
+    "nameJa": "太陽",
+    "nameEn": "The Sun",
+    "aliases": [
+      "Sun",
+      "サン",
+      "19番"
+    ],
+    "searchTerms": [
+      "19",
+      "19番",
+      "XIX",
+      "太陽",
+      "The Sun",
+      "Sun",
+      "サン"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 太陽（The Sun）正位置",
+      "url": "https://note.com/yuki906/n/n6381d0233c6e",
+      "publishedAt": "2026-05-18 06:49",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 太陽（The Sun）逆位置",
+      "url": "https://note.com/yuki906/n/n3ef245d7cffd",
+      "publishedAt": "2026-05-30 05:54",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 20,
+    "roman": "XX",
+    "nameJa": "審判",
+    "nameEn": "Judgement",
+    "aliases": [
+      "Judgment",
+      "Judgement",
+      "ジャッジメント",
+      "20番"
+    ],
+    "searchTerms": [
+      "20",
+      "20番",
+      "XX",
+      "審判",
+      "Judgement",
+      "Judgment",
+      "ジャッジメント"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 審判（Judgement）正位置",
+      "url": "https://note.com/yuki906/n/n6e408ef737fb",
+      "publishedAt": "2026-02-13 07:19",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 審判（Judgement）逆位置",
+      "url": "https://note.com/yuki906/n/n4d757b815e19",
+      "publishedAt": "2026-05-08 06:20",
+      "series": "カードと暮らす日々"
+    }
+  },
+  {
+    "number": 21,
+    "roman": "XXI",
+    "nameJa": "世界",
+    "nameEn": "The World",
+    "aliases": [
+      "World",
+      "ワールド",
+      "21番"
+    ],
+    "searchTerms": [
+      "21",
+      "21番",
+      "XXI",
+      "世界",
+      "The World",
+      "World",
+      "ワールド"
+    ],
+    "upright": {
+      "title": "🌙 カードと暮らす日々 ― 世界（The World）正位置",
+      "url": "https://note.com/yuki906/n/n566f29e38b74",
+      "publishedAt": "2026-05-31 06:45",
+      "series": "カードと暮らす日々"
+    },
+    "reversed": {
+      "title": "🌙 カードと暮らす日々 ― 世界（The World）逆位置",
+      "url": "https://note.com/yuki906/n/nda0940a6d383",
+      "publishedAt": "2026-05-04 06:43",
+      "series": "カードと暮らす日々"
+    }
+  }
+]</script>
   <script>
-    const articles = [{"number":"0","card":"愚者","orientation":"正位置","theme":"新しい一歩を、軽やかに踏み出す日","url":"https://note.com/yuki906/n/nfc3724b8b643"},{"number":"0","card":"愚者","orientation":"逆位置","theme":"足元を確かめながら、ゆっくり進む日","url":"https://note.com/yuki906/n/ned729df9e16f"},{"number":"1","card":"魔術師","orientation":"正位置","theme":"今ある力を使って、まず始めてみる日","url":"https://note.com/yuki906/n/n22cb463c9344"},{"number":"1","card":"魔術師","orientation":"逆位置","theme":"準備不足に気づき、整え直す日","url":"https://note.com/yuki906/n/nc0a5aa51e39c"},{"number":"2","card":"女教皇","orientation":"正位置","theme":"静けさの中で、本音に耳をすます日","url":"https://note.com/yuki906/n/nf1306004668e"},{"number":"2","card":"女教皇","orientation":"逆位置","theme":"考えすぎをゆるめ、心を開いていく日","url":"https://note.com/yuki906/n/nab28e678bc04"},{"number":"3","card":"女帝","orientation":"正位置","theme":"自分の中の豊かさを、やさしく育てる日","url":"https://note.com/yuki906/n/n60d6fd85e9b8"},{"number":"3","card":"女帝","orientation":"逆位置","theme":"与えすぎた心を、自分へ戻していく日","url":"https://note.com/yuki906/n/n63dcd1d00258"},{"number":"4","card":"皇帝","orientation":"正位置","theme":"自分の軸を立て、現実を整える日","url":"https://note.com/yuki906/n/nf27b6c8631cf"},{"number":"4","card":"皇帝","orientation":"逆位置","theme":"力みすぎをゆるめ、安心できる形を探す日","url":"https://note.com/yuki906/n/n4dfe7aa2ce88"},{"number":"5","card":"教皇","orientation":"正位置","theme":"信頼できる知恵に学び、心を整える日","url":"https://note.com/yuki906/n/n0adcdd86da8a"},{"number":"5","card":"教皇","orientation":"逆位置","theme":"常識よりも、自分の内側の声を確かめる日","url":"https://note.com/yuki906/n/n3eb07c676cf4"},{"number":"6","card":"恋人","orientation":"正位置","theme":"心が選ぶものを、素直に大切にする日","url":"https://note.com/yuki906/n/n75792ebf1053"},{"number":"6","card":"恋人","orientation":"逆位置","theme":"迷いの中にある本音を、静かに見つめる日","url":"https://note.com/yuki906/n/nb859facb9d50"},{"number":"7","card":"戦車","orientation":"正位置","theme":"進みたい気持ちを力に変えて動く日","url":"https://note.com/yuki906/n/n927b7f9b4976"},{"number":"7","card":"戦車","orientation":"逆位置","theme":"焦る気持ちを整え、進む方向を見直す日","url":"https://note.com/yuki906/n/n4d015aa126d5"},{"number":"8","card":"力","orientation":"正位置","theme":"やさしさと粘り強さで、自分を支える日","url":"https://note.com/yuki906/n/n08a7ccfcaf70"},{"number":"8","card":"力","orientation":"逆位置","theme":"無理に強くあろうとせず、心を休ませる日","url":"https://note.com/yuki906/n/n68202a894137"},{"number":"9","card":"隠者","orientation":"正位置","theme":"ひとりの時間の中で、大切な答えを探す日","url":"https://note.com/yuki906/n/n4f2c555b8bc6"},{"number":"9","card":"隠者","orientation":"逆位置","theme":"閉じこもりすぎた心に、小さな光を入れる日","url":"https://note.com/yuki906/n/nc37a036fd66e"},{"number":"10","card":"運命の輪","orientation":"正位置","theme":"流れが動き出すタイミングを受け取る日","url":"https://note.com/yuki906/n/nf9063a56a36f"},{"number":"10","card":"運命の輪","orientation":"逆位置","theme":"思い通りに進まない流れを、見守る日","url":"https://note.com/yuki906/n/n60e65ab4f097"},{"number":"11","card":"正義","orientation":"正位置","theme":"心と現実のバランスを、静かに整える日","url":"https://note.com/yuki906/n/nd8be83ea4327"},{"number":"11","card":"正義","orientation":"逆位置","theme":"正しさに偏らず、本当の納得を探す日","url":"https://note.com/yuki906/n/n3cb0906a1a89"},{"number":"12","card":"吊るされた男","orientation":"正位置","theme":"動けない時間の中で、見方を変えてみる日","url":"https://note.com/yuki906/n/n8ac68ca07403"},{"number":"12","card":"吊るされた男","orientation":"逆位置","theme":"我慢しすぎに気づき、力を抜いていく日","url":"https://note.com/yuki906/n/nad14332b8a56"},{"number":"13","card":"死神","orientation":"正位置","theme":"終わりを受け入れ、新しい流れへ向かう日","url":"https://note.com/yuki906/n/nf24e42a79122"},{"number":"13","card":"死神","orientation":"逆位置","theme":"手放せないものを、少しずつほどいていく日","url":"https://note.com/yuki906/n/nd24bde00928e"},{"number":"14","card":"節制","orientation":"正位置","theme":"心と体のリズムを、やさしく調和させる日","url":"https://note.com/yuki906/n/nf8d7ff071b28"},{"number":"14","card":"節制","orientation":"逆位置","theme":"乱れたペースを、少しずつ整え直す日","url":"https://note.com/yuki906/n/n99e4005b7c3b"},{"number":"15","card":"悪魔","orientation":"正位置","theme":"執着や欲望の奥にある本音を見つめる日","url":"https://note.com/yuki906/n/nbfa092393521"},{"number":"15","card":"悪魔","orientation":"逆位置","theme":"縛られていたものから、少しずつ自由になる日","url":"https://note.com/yuki906/n/n2a880edcba74"},{"number":"16","card":"塔","orientation":"正位置","theme":"壊れることで、本当の土台が見えてくる日","url":"https://note.com/yuki906/n/n3071f4140e7f"},{"number":"16","card":"塔","orientation":"逆位置","theme":"変化を恐れず、古い形を静かに手放す日","url":"https://note.com/yuki906/n/nb5e4d1a3c44f"},{"number":"17","card":"星","orientation":"正位置","theme":"小さな希望を信じて、未来へ目を向ける日","url":"https://note.com/yuki906/n/n0e79672a6e24"},{"number":"17","card":"星","orientation":"逆位置","theme":"希望を見失った心に、そっと光を戻す日","url":"https://note.com/yuki906/n/n678e291e8546"},{"number":"18","card":"月","orientation":"正位置","theme":"不安の奥にある感情を、やさしく見つめる日","url":"https://note.com/yuki906/n/nce850e41515a"},{"number":"18","card":"月","orientation":"逆位置","theme":"ぼんやりしていた気持ちが、少しずつ晴れる日","url":"https://note.com/yuki906/n/nde06eeafc487"},{"number":"19","card":"太陽","orientation":"正位置","theme":"素直な喜びを、まっすぐ受け取る日","url":"https://note.com/yuki906/n/n6381d0233c6e"},{"number":"19","card":"太陽","orientation":"逆位置","theme":"小さな喜びを思い出し、自分を温める日","url":"https://note.com/yuki906/n/nd2ffd2a50573"},{"number":"20","card":"審判","orientation":"正位置","theme":"眠っていた思いが、もう一度目を覚ます日","url":"https://note.com/yuki906/n/n6e408ef737fb"},{"number":"20","card":"審判","orientation":"逆位置","theme":"過去の声にとらわれず、今の自分を選ぶ日","url":"https://note.com/yuki906/n/n4d757b815e19"},{"number":"21","card":"世界","orientation":"正位置","theme":"ひとつの旅を終え、満ちた感覚を味わう日","url":"https://note.com/yuki906/n/nbc4ddb6fb91e"},{"number":"21","card":"世界","orientation":"逆位置","theme":"完璧を急がず、今いる場所を整える日","url":"https://note.com/yuki906/n/nda0940a6d383"}];
-    const searchInput = document.querySelector('#searchInput');
-    const clearButton = document.querySelector('#clearButton');
-    const filterButtons = Array.from(document.querySelectorAll('.filter-button'));
-    const results = document.querySelector('#results');
-    const resultStatus = document.querySelector('#resultStatus');
-    let activeFilter = 'all';
+    const cards = JSON.parse(document.getElementById("cardData").textContent);
+    const searchInput = document.getElementById("searchInput");
+    const clearButton = document.getElementById("clearButton");
+    const results = document.getElementById("results");
+    const status = document.getElementById("status");
+    const noResults = document.getElementById("noResults");
 
-    const normalize = (value) => String(value || '').normalize('NFKC').trim().toLowerCase();
+    const normalize = (value) => value
+      .normalize("NFKC")
+      .toLowerCase()
+      .replace(/the\s+/g, "")
+      .replace(/[\s　・\-―—_()（）.]/g, "")
+      .trim();
 
-    function render() {
-      const query = normalize(searchInput.value);
-      const filtered = articles.filter((item) => {
-        const matchesCard = normalize(item.card).includes(query);
-        const matchesOrientation = activeFilter === 'all' || item.orientation === activeFilter;
-        return matchesCard && matchesOrientation;
-      });
+    const exactNumberLike = (query) => {
+      const cleaned = normalize(query).replace(/番$/, "");
+      if (/^\d+$/.test(cleaned)) return String(Number(cleaned));
+      return "";
+    };
 
-      resultStatus.textContent = `${filtered.length}件見つかりました`;
-      results.innerHTML = '';
+    const exactRomanLike = (query) => {
+      const cleaned = normalize(query);
+      if (/^[ivx]+$/.test(cleaned)) return cleaned.toUpperCase();
+      if (cleaned === "o") return "O";
+      return "";
+    };
 
-      if (filtered.length === 0) {
-        const empty = document.createElement('p');
-        empty.className = 'empty';
-        empty.textContent = '条件に合う記事が見つかりませんでした。カード名や向きを変えて探してみてください。';
-        results.append(empty);
-        return;
+    function matchesCard(card, rawQuery) {
+      const query = normalize(rawQuery);
+      if (!query) return true;
+
+      const number = exactNumberLike(rawQuery);
+      if (number !== "") return String(card.number) === number || (rawQuery.trim() === "00" && card.number === 0);
+
+      const roman = exactRomanLike(rawQuery);
+      if (roman) {
+        if (roman === "O") return card.number === 0;
+        return card.roman === roman;
       }
 
-      const fragment = document.createDocumentFragment();
-      filtered.forEach((item) => {
-        const article = document.createElement('article');
-        article.className = 'card';
-
-        const top = document.createElement('div');
-        top.className = 'card-top';
-
-        const title = document.createElement('h2');
-        title.textContent = item.card;
-
-        const badge = document.createElement('span');
-        badge.className = item.orientation === '逆位置' ? 'badge reversed' : 'badge';
-        badge.textContent = item.orientation;
-
-        const theme = document.createElement('p');
-        theme.className = 'theme';
-        theme.textContent = item.theme;
-
-        const link = document.createElement('a');
-        link.className = 'read-button';
-        link.href = item.url;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.textContent = '記事を読む';
-
-        top.append(title, badge);
-        article.append(top, theme, link);
-        fragment.append(article);
-      });
-
-      results.append(fragment);
+      return card.searchTerms.some((term) => normalize(term).includes(query));
     }
 
-    searchInput.addEventListener('input', render);
-    clearButton.addEventListener('click', () => {
-      searchInput.value = '';
+    function articleHtml(article, label, isReversed) {
+      if (!article) {
+        return `
+          <div class="article" data-empty="true">
+            <div class="article-head">
+              <span class="badge ${isReversed ? "reversed" : ""}">${label}</span>
+            </div>
+            <p class="empty-text">該当記事はまだありません</p>
+          </div>
+        `;
+      }
+
+      return `
+        <article class="article">
+          <div class="article-head">
+            <span class="badge ${isReversed ? "reversed" : ""}">${label}</span>
+            <span class="date">${article.publishedAt}</span>
+          </div>
+          <p class="article-title">${article.title}</p>
+          <a class="read-button" href="${article.url}" target="_blank" rel="noopener">記事を読む</a>
+        </article>
+      `;
+    }
+
+    function cardHtml(card) {
+      const displayNumber = card.number === 0 ? "0" : String(card.number);
+      return `
+        <article class="card">
+          <div class="card-top">
+            <div class="number">
+              <span>${displayNumber}</span>
+              <small>${card.roman}</small>
+            </div>
+            <div>
+              <h2>${card.nameJa}</h2>
+              <p class="english">${card.nameEn}</p>
+            </div>
+          </div>
+          <div class="article-grid">
+            ${articleHtml(card.upright, "正位置", false)}
+            ${articleHtml(card.reversed, "逆位置", true)}
+          </div>
+        </article>
+      `;
+    }
+
+    function render() {
+      const query = searchInput.value;
+      const visibleCards = cards.filter((card) => matchesCard(card, query));
+      results.innerHTML = visibleCards.map(cardHtml).join("");
+      status.textContent = `${visibleCards.length} / ${cards.length}枚を表示`;
+      noResults.classList.toggle("is-visible", visibleCards.length === 0);
+    }
+
+    searchInput.addEventListener("input", render);
+    clearButton.addEventListener("click", () => {
+      searchInput.value = "";
       searchInput.focus();
       render();
-    });
-
-    filterButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        activeFilter = button.dataset.filter;
-        filterButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
-        render();
-      });
     });
 
     render();
